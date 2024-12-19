@@ -3,8 +3,20 @@
 import logoVector from "@public/svg/logo-dark-icon-vector.svg";
 import Button from "@assets/components/Button";
 import Image from "next/image";
+import { useEffect } from "react";
+import Cookies from "js-cookie";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
+  const router = useRouter();
+
+  useEffect(() => {
+    const tokenCached = Cookies.get("discordToken");
+    if (tokenCached) {
+      router.push("/game")
+    }
+  }, [router])
+
   return (
     <main className="flex flex-col items-center justify-center
     gap-4 w-screen h-screen bg-zinc-950">
@@ -26,8 +38,15 @@ export default function Home() {
         </p>
       </header>
       <div className="flex items-center justify-center">
-        <Button>Logar com Discord</Button>
+        <Button onClick={() => window.location.href = discordRedirectUri(location) }>Logar com Discord</Button>
       </div>
     </main>
   );
+}
+
+function discordRedirectUri(location: Location) {
+  const { protocol, host } = location;
+  const redirectUrl = `${protocol}//${host}/api/auth`;
+  const discordUrl = `https://discord.com/oauth2/authorize?client_id=1318739993963008050&response_type=code&redirect_uri=${encodeURIComponent(redirectUrl)}&scope=identify+email`;
+  return discordUrl
 }
