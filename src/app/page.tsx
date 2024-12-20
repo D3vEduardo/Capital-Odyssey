@@ -1,21 +1,24 @@
 "use client"
 
 import logoVector from "@public/svg/logo-dark-icon-vector.svg";
-import Button from "@assets/components/Button";
+import Button from "@assets/components/global/Button";
 import Image from "next/image";
+import { signIn } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { useEffect } from "react";
-import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 
 export default function Home() {
   const router = useRouter();
+  const { data: session, status } = useSession();
 
   useEffect(() => {
-    const tokenCached = Cookies.get("discordToken");
-    if (tokenCached) {
-      router.push("/game")
+    if(status === "loading" || status === "unauthenticated") return;
+    if(status === "authenticated") {
+        router.push("/game");
     }
-  }, [router])
+    
+}, [session, router, status]);
 
   return (
     <main className="flex flex-col items-center justify-center
@@ -38,15 +41,17 @@ export default function Home() {
         </p>
       </header>
       <div className="flex items-center justify-center">
-        <Button onClick={() => window.location.href = discordRedirectUri(location) }>Logar com Discord</Button>
+      <Button
+        onClick={() => signIn("discord", { callbackUrl: "/callback" })}
+      >Login</Button>
       </div>
     </main>
   );
 }
 
-function discordRedirectUri(location: Location) {
+/*function discordRedirectUri(location: Location) {
   const { protocol, host } = location;
   const redirectUrl = `${protocol}//${host}/api/auth`;
   const discordUrl = `https://discord.com/oauth2/authorize?client_id=1318739993963008050&response_type=code&redirect_uri=${encodeURIComponent(redirectUrl)}&scope=identify+email`;
   return discordUrl
-}
+}*/

@@ -1,24 +1,10 @@
-"use client"
-import Cookies from "js-cookie";
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import ClientRedirect from "@assets/components/callback/ClientRedirect";
+import { getServerSession } from "next-auth";
 
-export default function Callback() {   
-    const router = useRouter();
-    
-    const [discordToken, setDiscordToken] = useState<string | null>(null);
+export default async function Callback() {
+    const session = await getServerSession();
 
-    useEffect(() => {
-      const token = new URLSearchParams(window.location.search).get("token");
-      const tokenCached = Cookies.get("discordToken");
-      if (token && discordToken != token && tokenCached != token) {
-        Cookies.set("discordToken", token, {expires: 1});
-        setDiscordToken(token);
-        setTimeout(() => {router.push("/game");}, 8000)
-      }
-    }, [discordToken, router]);
-
-    if (!discordToken) {
+    if (!session) {
         return (
             <div
                 className="flex flex-col items-center justify-center w-screen h-screen
@@ -30,6 +16,7 @@ export default function Callback() {
                 </h1>
                 <p className="text-zinc-200"
                 >Iremos te redirecionar em 8 segundos.</p>
+                < ClientRedirect />
             </div>
         )
     }
@@ -45,6 +32,7 @@ export default function Callback() {
             </h1>
             <p className="text-zinc-200"
             >Iremos te redirecionar em 8 segundos.</p>
+            < ClientRedirect />
         </div>
     )
 }

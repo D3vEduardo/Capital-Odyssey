@@ -1,5 +1,6 @@
 import { Metadata } from "next";
-import Navbar from "@assets/components/Navbar";
+import Navbar from "@assets/components/game/Navbar";
+import SessionProviderWrapper from "@assets/components/global/SessionProviderWrapper";
 
 export const metadata: Metadata = {
     title: "Capital Odyssey - Jogue Agora!",
@@ -14,8 +15,11 @@ export default function GameLayout({
     return (
         <html lang="pt-BR">
             <body>
-                < Navbar />
-                {children}
+                
+                <SessionProviderWrapper>
+                    < Navbar />
+                    {children}
+                </SessionProviderWrapper>
             </body>
         </html>
     )

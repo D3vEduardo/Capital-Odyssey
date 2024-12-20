@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import SessionProviderWrapper from "@assets/components/global/SessionProviderWrapper";
 
 export const metadata: Metadata = {
   title: "Capital Odyssey",
@@ -15,7 +16,9 @@ export default function RootLayout({
   return (
         <html lang="pt-BR">
           <body>
-            {children}
+            <SessionProviderWrapper>
+              {children}
+            </SessionProviderWrapper>
           </body>
         </html>
   );
