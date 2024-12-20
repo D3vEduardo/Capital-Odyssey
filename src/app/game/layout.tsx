@@ -1,6 +1,6 @@
 import { Metadata } from "next";
-import Navbar from "@assets/components/game/Navbar";
-import SessionProviderWrapper from "@assets/components/global/SessionProviderWrapper";
+import Navbar from "@/components/game/Navbar";
+import SessionProviderWrapper from "@/components/global/SessionProviderWrapper";
 
 export const metadata: Metadata = {
     title: "Capital Odyssey - Jogue Agora!",

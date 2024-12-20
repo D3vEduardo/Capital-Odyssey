@@ -1,13 +1,10 @@
 "use client"
 
 import Image from "next/image";
-import { useState, useEffect } from "react";
-import Cookies from "js-cookie";
-import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
+import UserBal from "./UserBal";
 
 export default function Navbar() {
-    const router = useRouter();
     const { data: session, status } = useSession();
 
     if(status === "loading") return;
@@ -33,6 +30,7 @@ export default function Navbar() {
                 >Olá,<br/><span className="font-black text-zinc-50">{session?.user?.name}</span>!
                 </h1>
             </div>
+            < UserBal className="mb-4" />
             </nav>
     )
 }

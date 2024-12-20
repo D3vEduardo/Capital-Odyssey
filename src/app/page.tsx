@@ -1,7 +1,7 @@
 "use client"
 
 import logoVector from "@public/svg/logo-dark-icon-vector.svg";
-import Button from "@assets/components/global/Button";
+import Button from "@/components/global/Button";
 import Image from "next/image";
 import { signIn } from "next-auth/react";
 import { useSession } from "next-auth/react";
@@ -43,15 +43,8 @@ export default function Home() {
       <div className="flex items-center justify-center">
       <Button
         onClick={() => signIn("discord", { callbackUrl: "/callback" })}
-      >Login</Button>
+      >Login com Discord</Button>
       </div>
     </main>
   );
 }
-
-/*function discordRedirectUri(location: Location) {
-  const { protocol, host } = location;
-  const redirectUrl = `${protocol}//${host}/api/auth`;
-  const discordUrl = `https://discord.com/oauth2/authorize?client_id=1318739993963008050&response_type=code&redirect_uri=${encodeURIComponent(redirectUrl)}&scope=identify+email`;
-  return discordUrl
-}*/

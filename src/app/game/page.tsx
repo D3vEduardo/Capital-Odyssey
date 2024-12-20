@@ -1,7 +1,9 @@
 "use client";
+import Card from "@/components/global/Card";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import { FaDiscord } from "react-icons/fa";
 
 export default function Game() {
     const router = useRouter();
@@ -18,12 +20,12 @@ export default function Game() {
     if (status === "loading") {
         return (
             <div
-                className="flex flex-col items-center w-screen h-screen
+                className="flex justify-center items-center w-screen h-screen
                 bg-zinc-950"
             >
-                <div className="mt-28"
+                <div
                 >
-                    <h1 className="text-zinc-100">
+                    <h1 className="text-zinc-100 text-4xl font-extrabold">
                         Site <span className="text-zinc-950 text-stroke-sm lg:text-stroke-lg">Carregando...</span>
                     </h1>
                 </div>
@@ -36,10 +38,21 @@ export default function Game() {
             className="flex flex-col items-center w-screen h-screen
             bg-zinc-950"
         >
-            <div className="mt-28"
+            <Card hover={true}
+                className="mt-28"
+                onClick={() => router.push("/game/profile")}
             >
-                <h1 className="text-zinc-100">Seu nome: {session?.user?.name}</h1>
-            </div>
+                <div
+                    className="flex flex-col items-center justify-center
+                    p-4">
+                < FaDiscord
+                    className="text-6xl"
+                />
+                <h1
+                    className="text-2xl font-extrabold"
+                >Perfil</h1>
+                </div>
+            </Card>
         </div>
     )
 }

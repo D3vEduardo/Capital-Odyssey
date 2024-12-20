@@ -7,6 +7,7 @@ const nextConfig: NextConfig = {
       {
         hostname: "cdn.discordapp.com",
         protocol: "https",
+        port: "",
         pathname: "/avatars/**"
       }
     ]

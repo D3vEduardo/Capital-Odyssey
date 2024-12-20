@@ -1,4 +1,4 @@
-import ClientRedirect from "@assets/components/callback/ClientRedirect";
+import ClientRedirect from "@/components/callback/ClientRedirect";
 import { getServerSession } from "next-auth";
 
 export default async function Callback() {
