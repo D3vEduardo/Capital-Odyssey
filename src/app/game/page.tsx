@@ -3,7 +3,7 @@ import Card from "@/components/global/Card";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import { FaDiscord } from "react-icons/fa";
+import { FiUser } from "react-icons/fi";
 
 export default function Game() {
     const router = useRouter();
@@ -45,7 +45,7 @@ export default function Game() {
                 <div
                     className="flex flex-col items-center justify-center
                     p-4">
-                < FaDiscord
+                < FiUser
                     className="text-6xl"
                 />
                 <h1

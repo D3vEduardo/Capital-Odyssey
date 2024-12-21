@@ -2,10 +2,10 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-export type UserData = {
-    id: number;
-    email: string;
-    bal: number;
-}
-
 export default prisma;
+
+export type UserData = {
+    id: string;
+    bal: number;
+    email: string;
+}

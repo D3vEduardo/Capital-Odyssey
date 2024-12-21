@@ -7,6 +7,7 @@ import { signIn } from "next-auth/react";
 import { useSession } from "next-auth/react";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { FaDiscord } from "react-icons/fa";
 
 export default function Home() {
   const router = useRouter();
@@ -41,9 +42,14 @@ export default function Home() {
         </p>
       </header>
       <div className="flex items-center justify-center">
-      <Button
-        onClick={() => signIn("discord", { callbackUrl: "/callback" })}
-      >Login com Discord</Button>
+        <Button
+          onClick={() => signIn("discord", { callbackUrl: "/callback" })}
+        >
+          <span className="flex items-center justify-center gap-1">
+            <FaDiscord className="text-2xl"/>
+            Login com Discord
+            </span>
+        </Button>
       </div>
     </main>
   );

@@ -1,6 +1,6 @@
 "use client"
 import Card from "@/components/global/Card";
-import { useSession } from "next-auth/react"
+import { signOut, useSession } from "next-auth/react"
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -52,7 +52,8 @@ export default function Profile() {
             h-screen w-screen"
         >
             <Card>
-                <div className="flex items-center justify-center gap-3">
+                <div className="flex flex-col">
+                    <div className="flex items-center justify-center gap-3">
                     < Image
                         src={session?.user?.image || ""}
                         alt={`Foto de perfil de ${session?.user?.name}`}
@@ -70,13 +71,22 @@ export default function Profile() {
                             @<span className="text-zinc-900">{session?.user?.name}</span>
                         </p>
                         <p
-                            className="font-extrabold text-xl"
+                            className="font-extrabold text-sm text-zinc-400"
                         >
-                            Id: <span className="text-zinc-900">{userData?.id}</span>
+                            {userData?.id}
+                        </p>
+                        <p
+                            className="text-red-500 hover:text-red-600 hover:cursor-pointer"
+                            onClick={() => signOut({
+                                redirect: true,
+                                callbackUrl: "/"
+                            })}
+                        >
+                            Logout
                         </p>
                     </div>
+                    </div>
                 </div>
-                
             </Card>
         </div>
     )
