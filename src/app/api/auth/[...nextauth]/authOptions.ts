@@ -16,15 +16,22 @@ export const authOptions: AuthOptions = {
             try {
                 if (!user.email) return false;
 
-                const isUserDataCreated = await prisma.user.findUnique({
+                const isUserDataCreated = await prisma.identifier.findUnique({
                     where: {
-                        email: user.email
+                        email: user.email,
                     }
-                })
+                });
 
                 if (isUserDataCreated) return true;
 
                 const randomUserId = new ObjectId().toHexString();
+
+                await prisma.identifier.create({
+                    data: {
+                        id: randomUserId,
+                        email: user.email
+                    }
+                })
 
                 await prisma.user.create({
                     data: {
