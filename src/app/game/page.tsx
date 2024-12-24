@@ -1,58 +1,48 @@
 "use client";
 import Card from "@/components/global/Card";
-import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
-import { FiUser } from "react-icons/fi";
+import UserIcon from "@public/svg/icons/profile.svg";
+import Image from "next/image";
 
 export default function Game() {
-    const router = useRouter();
-    const { data: session, status } = useSession();
-    
-    useEffect(() => {
-        if(status === "loading" || status === "authenticated") return;
-        if(status === "unauthenticated") {
-            router.push("/");
-        }
-        
-    }, [session, router, status]);
-
-    if (status === "loading") {
-        return (
-            <div
-                className="flex justify-center items-center w-screen h-screen
-                bg-zinc-950"
-            >
-                <div
-                >
-                    <h1 className="text-zinc-100 text-4xl font-extrabold">
-                        Site <span className="text-zinc-950 text-stroke-sm lg:text-stroke-lg">Carregando...</span>
-                    </h1>
-                </div>
-            </div>
-        )
-    }
 
     return (
         <div
             className="flex flex-col items-center w-screen h-screen
             bg-zinc-950"
         >
-            <Card hover={true}
+            <PageCard
+                iconSrc={UserIcon}
+                redirectRoute="/game/profile"
+                title="Meu Perfil"
+            />
+        </div>
+    )
+}
+
+function PageCard({redirectRoute, iconSrc, title}:{
+    redirectRoute: string, iconSrc: string, title: string
+}) {
+    const router = useRouter();
+    return(
+        <Card hover={true}
                 className="mt-28"
-                onClick={() => router.push("/game/profile")}
+                onClick={() => router.push(redirectRoute)}
             >
                 <div
                     className="flex flex-col items-center justify-center
                     p-4">
-                < FiUser
-                    className="text-6xl"
-                />
+                        <Image
+                            src={iconSrc}
+                            alt={`Ícone da rota '${redirectRoute}'`}
+                            width={100}
+                            height={100}
+                            className="w-16"
+                        />
                 <h1
                     className="text-2xl font-extrabold"
-                >Perfil</h1>
+                >{title}</h1>
                 </div>
             </Card>
-        </div>
     )
 }

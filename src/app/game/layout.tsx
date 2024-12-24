@@ -1,6 +1,8 @@
 import { Metadata } from "next";
 import Navbar from "@/components/game/Navbar";
 import SessionProviderWrapper from "@/components/global/SessionProviderWrapper";
+import UserContextProvider from "@assets/contexts/UserDataContextProvider";
+import PrivateRoute from "@/components/global/PrivateRoute";
 
 export const metadata: Metadata = {
     title: "Capital Odyssey - Jogue Agora!",
@@ -15,10 +17,13 @@ export default function GameLayout({
     return (
         <html lang="pt-BR">
             <body>
-                
                 <SessionProviderWrapper>
-                    < Navbar />
-                    {children}
+                    <UserContextProvider>
+                        <PrivateRoute >
+                            < Navbar />
+                            {children}
+                        </PrivateRoute>
+                    </UserContextProvider>
                 </SessionProviderWrapper>
             </body>
         </html>

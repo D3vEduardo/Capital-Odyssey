@@ -3,23 +3,10 @@
 import logoVector from "@public/svg/logo-dark-icon-vector.svg";
 import Button from "@/components/global/Button";
 import Image from "next/image";
-import { signIn } from "next-auth/react";
-import { useSession } from "next-auth/react";
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { FaDiscord } from "react-icons/fa";
+import { signIn } from "next-auth/react";;
+import DiscordLogo from "@public/svg/icons/discord.svg";
 
 export default function Home() {
-  const router = useRouter();
-  const { data: session, status } = useSession();
-
-  useEffect(() => {
-    if(status === "loading" || status === "unauthenticated") return;
-    if(status === "authenticated") {
-        router.push("/game");
-    }
-    
-}, [session, router, status]);
 
   return (
     <main className="flex flex-col items-center justify-center
@@ -46,7 +33,13 @@ export default function Home() {
           onClick={() => signIn("discord", { callbackUrl: "/callback" })}
         >
           <span className="flex items-center justify-center gap-1">
-            <FaDiscord className="text-2xl"/>
+            <Image
+              alt="Discord logo"
+              width={100}
+              height={100}
+              src={DiscordLogo}
+              className="w-6"
+            />
             Login com Discord
             </span>
         </Button>

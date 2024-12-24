@@ -2,31 +2,19 @@
 
 import { useSession } from "next-auth/react";
 import Card from "../global/Card";
-import { ComponentProps, useEffect, useState } from "react";
-import { getUserBal } from "./UserBalActions";
+import { Dispatch, SetStateAction, useContext } from "react";
+import { UserContext } from "@assets/contexts/UserDataContext";
 
-export default function UserBal(props: ComponentProps<"figure">) {
-    const {data: session, status} = useSession();
-    const [userBal, setUserBal] = useState<number>(0);
-    const [showBal, setShowBal] = useState<boolean>(false);
-
-    useEffect(() => {
-        const main = async () => {
-            if (session?.user?.email) {
-                const userBalFetched = await getUserBal(session.user.email);
-                setUserBal(userBalFetched!);
-            }
-        }
-
-        main()
-    }, [session?.user?.email]);
+export default function UserBal(props: {showBal: boolean, setShowBal: Dispatch<SetStateAction<boolean>>}) {
+    const {status} = useSession();
+    const { bal: userBal } = useContext(UserContext);
 
     if (status === "loading") return;
 
-    return <Card className={props.className}>
+    return <Card>
         <div
-            onClick={() => setShowBal(prev => !prev)}
-            className={`flex ${!showBal ? "bg-zinc-800" : "bg-zinc-400"}
+            onClick={() => props.setShowBal(prev => !prev)}
+            className={`flex ${!props.showBal ? "bg-zinc-800" : "bg-zinc-400"}
             hover:cursor-pointer`}
         >
             <p

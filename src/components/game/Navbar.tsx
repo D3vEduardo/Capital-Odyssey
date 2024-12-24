@@ -1,36 +1,55 @@
 "use client"
 
+import { usePathname, useRouter } from "next/navigation";
+import UserIcon from "@public/svg/icons/profile.svg";
+import HomeIcon from "@public/svg/icons/home.svg"
+import CifraoIcon from "@public/svg/icons/cifrao.svg";
 import Image from "next/image";
-import { useSession } from "next-auth/react";
-import UserBal from "./UserBal";
 
 export default function Navbar() {
-    const { data: session, status } = useSession();
-
-    if(status === "loading") return;
-
+    const pathname = usePathname();
+    if (pathname === "/gameh") return;
     return (
         <nav
-            className="flex justify-between items-center absolute w-screen px-4 py-4 bg-zinc-900
-            rounded-bl-3xl rounded-br-3xl"
+            className="flex items-center justify-center bg-zinc-200
+            absolute bottom-0 left-0 lg:left-1/2 lg:-translate-x-1/2
+            w-screen lg:w-auto lg:max-w-96 md:max-w-96 sm:max-w-max
+            py-2 lg:px-5 gap-2 rounded-t-xl"
         >
-            <div
-                className="flex items-center justify-center gap-3"
-            >
-                < Image
-                    className="w-12 rounded border border-zinc-100"
-                    unoptimized
-                    width={100}
-                    height={100}
-                    src={session?.user?.image || ""}
-                    alt={`Foto de peril de ${session?.user?.name}.`}
-                />
-                <h1
-                    className="font-medium text-xl text-zinc-200"
-                >Olá,<br/><span className="font-black text-zinc-50">{session?.user?.name}</span>!
-                </h1>
-            </div>
-            < UserBal className="mb-4" />
-            </nav>
+            <NavIcon
+                icon={UserIcon}
+                redirectRoute="/game/profile"
+            />
+            <NavIcon
+                icon={HomeIcon}
+                redirectRoute="/game"
+            />
+            <NavIcon
+                icon={CifraoIcon}
+                redirectRoute="/game/bank"
+                className="-ml-1"
+            />
+        </nav>
+    )
+}
+
+function NavIcon({ icon,  redirectRoute, className}:
+{icon: string, redirectRoute: string, className?:string}) {
+    const router = useRouter();
+    const pathname = usePathname();
+    return (
+        <span
+            className="hover:cursor-pointer"
+            onClick={() => router.push(redirectRoute)}
+        >
+            <Image
+                src={icon}
+                alt={`Ícone da rota ${redirectRoute}`}
+                width={100}
+                height={100}
+                className={`w-9 rounded-lg ${className}
+                    ${redirectRoute === pathname&&"bg-zinc-400"}`}
+            />
+        </span>
     )
 }

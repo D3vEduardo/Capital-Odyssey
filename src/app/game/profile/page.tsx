@@ -1,34 +1,13 @@
 "use client"
 import Card from "@/components/global/Card";
+import { UserContext } from "@assets/contexts/UserDataContext";
 import { signOut, useSession } from "next-auth/react"
 import Image from "next/image";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import { readUserData } from "./actions";
-import { UserData } from "@prisma/index";
+import { useContext } from "react";
 
 export default function Profile() {
-    const router = useRouter();
     const { data: session, status } = useSession();
-    const [userData, setUserData] = useState<UserData | null>();
-
-    useEffect(() => {
-        const main = async () => {
-            if (!session?.user?.email) return;
-            const data = await readUserData(session.user.email);
-            setUserData(data);
-        };
-
-        main()
-    }, [session?.user?.email])
-        
-    useEffect(() => {
-        if(status === "loading" || status === "authenticated") return;
-        if(status === "unauthenticated") {
-            router.push("/");
-        }
-            
-    }, [session, router, status]);
+    const userData = useContext(UserContext);
 
     if (status === "loading") {
         return (
@@ -73,7 +52,7 @@ export default function Profile() {
                         <p
                             className="font-extrabold text-sm text-zinc-400"
                         >
-                            {userData?.id}
+                            {userData.id}
                         </p>
                         <p
                             className="text-red-500 hover:text-red-600 hover:cursor-pointer"

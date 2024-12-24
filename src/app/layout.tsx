@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import SessionProviderWrapper from "@/components/global/SessionProviderWrapper";
+import "./globals.css";
+import PrivateRoute from "@/components/global/PrivateRoute";
 
 export const metadata: Metadata = {
   title: "Capital Odyssey",
@@ -17,7 +19,9 @@ export default function RootLayout({
         <html lang="pt-BR">
           <body>
             <SessionProviderWrapper>
-              {children}
+              <PrivateRoute>
+                {children}
+              </PrivateRoute>
             </SessionProviderWrapper>
           </body>
         </html>
