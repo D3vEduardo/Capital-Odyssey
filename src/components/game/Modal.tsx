@@ -13,7 +13,7 @@ export default function Modal(props: {title: string, children: ReactNode, setSho
             >
                 {props.title}
             </p>
-            <div className="flex w-full gap-4">
+            <div className="flex flex-col lg:flex-row w-full gap-4">
                 {props.children}
             </div>
             <section

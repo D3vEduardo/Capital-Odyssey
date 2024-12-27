@@ -10,19 +10,19 @@ type Response = {
     remettingData?: iUserData
 }
 
-export async function TransferBal(adressee: string, remettingEmail: string, value: number): Promise<Response> {
+export async function TransferBal(addressee: string, remettingEmail: string, value: number): Promise<Response> {
     const remettingData: iUserData = await prisma.user.findUnique({
         where: {
             email: remettingEmail
         }
     }) as iUserData;
-    const adresseeData = await prisma.user.findUnique({
+    const addresseData = await prisma.user.findUnique({
         where: {
-            balCard: adressee
+            balCard: addressee
         }
     });
 
-    if (!adresseeData) return {
+    if (!addresseData) return {
         message: "Destinatário inexistente!",
         responseType: "error",
         remettingData
@@ -34,19 +34,25 @@ export async function TransferBal(adressee: string, remettingEmail: string, valu
         remettingData
     }
 
-    adresseeData.bal += value;
+    addresseData.bal += value;
     remettingData.bal -= value;
 
-    await prisma.user.upsert({
-        where: {id: adresseeData.id},
-        create: adresseeData,
-        update: adresseeData
+    await prisma.user.update({
+        where: {id: addresseData.id},
+        data: {
+            bal: addresseData.bal,
+            balCard: addresseData.balCard,
+            email: addresseData.email,
+        }
     });
 
-    const remettingDataUpdated = await prisma.user.upsert({
+    const remettingDataUpdated = await prisma.user.update({
         where: {id: remettingData.id},
-        create: remettingData,
-        update: remettingData
+        data: {
+            bal: remettingData.bal,
+            balCard: remettingData.balCard,
+            email: remettingData.email,
+        }
     });
 
     return {
