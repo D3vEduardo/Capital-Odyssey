@@ -9,6 +9,7 @@ export async function readUserData(email: string): Promise<iUserData> {
             email
         }
     });
+
     const userData = await prisma.user.findUnique({
         where: {
             id: userIdentifier?.id

@@ -47,7 +47,7 @@ function NavIcon({ icon,  redirectRoute, className}:
                 alt={`Ícone da rota ${redirectRoute}`}
                 width={100}
                 height={100}
-                className={`w-9 rounded-lg ${className}
+                className={`w-10 rounded-lg ${className}
                     ${redirectRoute === pathname&&"bg-zinc-400"}`}
             />
         </span>

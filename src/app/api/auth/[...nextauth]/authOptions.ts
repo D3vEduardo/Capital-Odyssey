@@ -13,6 +13,7 @@ export const authOptions: AuthOptions = {
     secret: process.env.NEXTAUTH_SECRET,
     callbacks: {
         async signIn({ user }) {
+            console.log(user)
             try {
                 if (!user.email) return false;
 
@@ -22,24 +23,30 @@ export const authOptions: AuthOptions = {
                     }
                 });
 
+                console.log(isUserDataCreated);
+
                 if (isUserDataCreated) return true;
 
                 const randomUserId = new ObjectId().toHexString();
 
-                await prisma.identifier.create({
+                const identifierUser = await prisma.identifier.create({
                     data: {
                         id: randomUserId,
                         email: user.email
                     }
                 })
 
-                await prisma.user.create({
+                const userData = await prisma.user.create({
                     data: {
                         id: randomUserId,
                         bal: 0,
+                        balCard: user.id,
                         email: user.email,
                     }
                 });
+
+                console.log(userData);
+                console.log(identifierUser)
 
                 return true;
             } catch (e) {

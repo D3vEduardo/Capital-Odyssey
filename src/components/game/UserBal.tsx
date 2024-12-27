@@ -27,7 +27,7 @@ export default function UserBal(props: {showBal: boolean, setShowBal: Dispatch<S
     </Card>
 }
 
-function formatSaldo(saldo: number) {
+export function formatSaldo(saldo: number) {
     return Intl.NumberFormat("pt-BR", {
         style: "currency",
         currency: "BRL",
