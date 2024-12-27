@@ -6,6 +6,7 @@ export const UserContext = createContext<iUserContext>({
     email: "",
     id: "",
     bal: 0,
+    balCard: "",
     setUserData() {
         throw Error("setUserData foi chamado fora de um UserContext.Provider")
     },

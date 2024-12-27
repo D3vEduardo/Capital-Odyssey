@@ -17,6 +17,7 @@ export default function UserContextProvider({ children }: iProps) {
       email: "",
       id: "",
       bal: 0,
+      balCard: ""
     });
     const { data: session, status } = useSession();
   
